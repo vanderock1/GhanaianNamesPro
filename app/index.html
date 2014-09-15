@@ -15,6 +15,37 @@
   <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '820600624657154',
+      xfbml      : true,
+      version    : 'v2.1',
+	  status	 : true
+    });
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			 console.log('Logged in.');
+		}
+		else {
+			FB.login();
+		}
+});
+	
+	
+	
+  };
+
+ 
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
   <ul class="menu">
     <li><a href="#/view1">view1</a></li>
     <li><a href="#/view2">view2</a></li>
