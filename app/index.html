@@ -23,21 +23,39 @@
       version    : 'v2.1',
 	  status	 : true
     });
+	
 	FB.getLoginStatus(function(response) {
+        console.log(response);
 		if (response.status === 'connected') {
 			 console.log('Logged in.');
+			 console.log(response.authResponse);
 		}
 		else {
-			FB.login();
+			FB.login(function(reponse){
+                console.log(response);
+                console.log(response.authResponse);
+				FB.api('/me', {fields: 'last_name'}, function(response) {
+ 						console.log(response);
+				});
+			}, {scope: 'public_profile,email',return_scopes: true});
 		}
-});
-	
-	
-	
+	});
   };
 
- 
-
+  function logoutfb(){
+      FB.logout(function(response) {
+          // user is now logged out
+      });
+  }
+  function sendPost(){
+      FB.api('/me/feed', 'post', {message: 'Hello, world!'}, function(response) {
+          if (!response || response.error) {
+              alert('Error occured');
+          } else {
+              alert('Post ID: ' + response.id);
+          }
+      });
+  }
   (function(d, s, id){
      var js, fjs = d.getElementsByTagName(s)[0];
      if (d.getElementById(id)) {return;}
