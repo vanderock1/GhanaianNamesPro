@@ -18,7 +18,7 @@ parentPage.service('LoginService', function() {
             console.log('STATUS');
             if (response.status == 'connected') {
                 FB.api('/me',  function(response) {
-                    $scope.Loginstate = 'Hello, '+response.first_name;
+                    $scope.Loginstate = $scope.introduction = 'Hello, '+response.first_name;
                     isLoggedin = true;
                     $scope.LogAction = 'Logout';
                     $scope.$apply();
@@ -38,11 +38,10 @@ parentPage.service('LoginService', function() {
                 FB.api('/me', function(response) {
                     console.log('LOGIN');
                     console.log(response);
-                    $scope.Loginstate = 'Hello, '+response.first_name;
+                    $scope.Loginstate = $scope.introduction = 'Hello, '+response.first_name;
                     isLoggedin = true;
                     $scope.LogAction = 'Logout';
                     $scope.$apply();
-                    console.log('Hello, '+response.first_name);
                 });
                 console.log('Logged in.');
             }
@@ -52,7 +51,7 @@ parentPage.service('LoginService', function() {
                     if (response.status == 'connected') {
                         FB.api('/me', function(response) {
                             console.log('API call after log in');
-                            $scope.Loginstate = 'Hello, '+response.first_name;
+                            $scope.Loginstate = $scope.introduction = 'Hello, '+response.first_name;
                             $scope.LogAction = 'Logout';
                             isLoggedin = true;
                             $scope.$apply();
@@ -88,7 +87,6 @@ parentPage.config(['$routeProvider', function($routeProvider) {
 parentPage.controller('fbLoginController',function($scope,LoginService){
 
     $scope.Loginstate = 'Logged out';
-    $scope.logMeth = 'loginfb()';
     $scope.LogAction = 'Login';
 
     $scope.loginfb = function(){
