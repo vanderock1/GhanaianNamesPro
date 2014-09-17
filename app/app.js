@@ -10,20 +10,22 @@ var parentPage = angular.module('myApp', [
   'myApp.version'
 ]);
 
-
+var isLoggedin = false;
 parentPage.service('LoginService', function() {
     this.status = function($scope){
 
         FB.getLoginStatus(function(response) {
-            console.log('status run');
+            console.log('STATUS');
             if (response.status == 'connected') {
                 FB.api('/me',  function(response) {
                     $scope.Loginstate = 'Hello, '+response.first_name;
-                    $scope.logMeth = 'logoutfb()';
+                    isLoggedin = true;
                     $scope.LogAction = 'Logout';
+                    $scope.$apply();
                     console.log('status in');
                 });
             }else{
+                isLoggedin = false;
                 $scope.Loginstate = 'Logged out';
             }
         });
@@ -34,9 +36,12 @@ parentPage.service('LoginService', function() {
         FB.getLoginStatus(function(response) {
             if (response.status == 'connected') {
                 FB.api('/me', function(response) {
-                    console.log('call inside login');
+                    console.log('LOGIN');
                     console.log(response);
                     $scope.Loginstate = 'Hello, '+response.first_name;
+                    isLoggedin = true;
+                    $scope.LogAction = 'Logout';
+                    $scope.$apply();
                     console.log('Hello, '+response.first_name);
                 });
                 console.log('Logged in.');
@@ -48,8 +53,13 @@ parentPage.service('LoginService', function() {
                         FB.api('/me', function(response) {
                             console.log('API call after log in');
                             $scope.Loginstate = 'Hello, '+response.first_name;
+                            $scope.LogAction = 'Logout';
+                            isLoggedin = true;
+                            $scope.$apply();
                         });
                         console.log('Logged in.');
+                    }else{
+                        isLoggedin = false;
                     }
                 }, {scope: 'public_profile,email',return_scopes: true});
             }
@@ -62,6 +72,9 @@ parentPage.service('LoginService', function() {
     this.logout = function ($scope){
         FB.logout(function(response) {
             $scope.Loginstate = 'Logged out';
+            $scope.LogAction = 'Login';
+            isLoggedin = false;
+            $scope.$apply();
         });
     };
 });
@@ -79,15 +92,23 @@ parentPage.controller('fbLoginController',function($scope,LoginService){
     $scope.LogAction = 'Login';
 
     $scope.loginfb = function(){
-        LoginService.login($scope);
-    };
-    $scope.logoutfb = function(){
-        LoginService.logout($scope);
+         (isLoggedin)? LoginService.logout($scope):LoginService.login($scope);
     };
 
-    $scope.$on('$routeChangeSuccess', function(){
-        LoginService.status($scope);
-    });
+    var init = function(){
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '820600624657154',
+                xfbml      : true,
+                version    : 'v2.1',
+                status	 : true
+            });
+
+            LoginService.status($scope);
+            $scope.$apply();
+        };
+    };
+    init();
 
 
 });

@@ -17,14 +17,7 @@
 </head>
 <body>
 <script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '820600624657154',
-            xfbml      : true,
-            version    : 'v2.1',
-            status	 : true
-        });
-    };
+
     (function(d, s, id){
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) {return;}
@@ -38,7 +31,7 @@
     <section class="top-bar-section">
 
         <ul class="left">
-            <li><a href="#/view1">view1</a></li>
+            <li><a href="#/view1">Home</a></li>
             <li><a href="#/view2">view2</a></li>
             <li><a href="#/view2">{{count}}</a></li>
         </ul>
@@ -59,9 +52,9 @@
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div ng-view></div>
+<div ng-view class="centerAll"></div>
 
-<div>Angular seed app: v<span app-version></span></div>
+<footer>Angular seed app: v<span app-version></span></footer>
 
 <!-- In production use:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
