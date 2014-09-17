@@ -4,89 +4,90 @@
 <!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>My AngularJS App</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
-  <link rel="stylesheet" href="app.css"/>
-  <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+    <link rel="stylesheet" href="app.css"/>
+    <link rel="stylesheet" href="css/foundation.min.css"/>
+    <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
 <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '820600624657154',
-      xfbml      : true,
-      version    : 'v2.1',
-	  status	 : true
-    });
-	
-	FB.getLoginStatus(function(response) {
-        console.log(response);
-		if (response.status === 'connected') {
-			 console.log('Logged in.');
-			 console.log(response.authResponse);
-		}
-		else {
-			FB.login(function(reponse){
-                console.log(response);
-                console.log(response.authResponse);
-				FB.api('/me', {fields: 'last_name'}, function(response) {
- 						console.log(response);
-				});
-			}, {scope: 'public_profile,email',return_scopes: true});
-		}
-	});
-  };
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '820600624657154',
+            xfbml      : true,
+            version    : 'v2.1',
+            status	 : true
+        });
 
-  function logoutfb(){
-      FB.logout(function(response) {
-          // user is now logged out
-      });
-  }
-  function sendPost(){
-      FB.api('/me/feed', 'post', {message: 'Hello, world!'}, function(response) {
-          if (!response || response.error) {
-              alert('Error occured');
-          } else {
-              alert('Post ID: ' + response.id);
-          }
-      });
-  }
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
+
+    };
+
+
+    function sendPost(){
+        FB.api('/me/feed', 'post', {message: 'Hello, world!'}, function(response) {
+            if (!response || response.error) {
+                alert('Error occurred');
+            } else {
+                alert('Post ID: ' + response.id);
+            }
+        });
+    }
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
 </script>
-  <ul class="menu">
-    <li><a href="#/view1">view1</a></li>
-    <li><a href="#/view2">view2</a></li>
-  </ul>
+<nav class="top-bar" data-topbar role="navigation">
+    <section class="top-bar-section">
 
-  <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
+        <ul class="left">
+            <li><a href="#/view1">view1</a></li>
+            <li><a href="#/view2">view2</a></li>
+            <li><a href="#/view2">{{count}}</a></li>
+        </ul>
+        <ul class="right">
+            <li class="has-dropdown" ng-controller="fbLoginController">
+                <a href="#">{{Loginstate}}</a>
+                <ul class="dropdown">
+                    <li class="active" ><button ng-click="loginfb()" >{{LogAction}}</button></li>
+                    <li class="active" style="display: none"><a href="#" ng-click=logoutfb()>{{LogAction}}</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+</nav>
 
-  <div ng-view></div>
 
-  <div>Angular seed app: v<span app-version></span></div>
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
 
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-  -->
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-route/angular-route.js"></script>
-  <script src="app.js"></script>
-  <script src="view1/view1.js"></script>
-  <script src="view2/view2.js"></script>
-  <script src="components/version/version.js"></script>
-  <script src="components/version/version-directive.js"></script>
-  <script src="components/version/interpolate-filter.js"></script>
+<div ng-view></div>
+
+<div>Angular seed app: v<span app-version></span></div>
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+<script src="jquery-1.11.0.js"></script>
+<script src="foundation.min.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="app.js"></script>
+<script src="view1/view1.js"></script>
+<script src="view2/view2.js"></script>
+<script src="components/version/version.js"></script>
+<script src="components/version/version-directive.js"></script>
+<script src="components/version/interpolate-filter.js"></script>
 </body>
 </html>
