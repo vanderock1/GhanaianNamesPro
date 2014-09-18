@@ -1,25 +1,46 @@
 'use strict';
 
-angular.module('myApp.view1', ['ngRoute'])
+var veiw1Module = angular.module('myApp.view1', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {
-    templateUrl: 'view1/view1.html',
-    controller: 'View1Ctrl'
-  });
-}])
+    .config(['$routeProvider', function($routeProvider) {
+        $routeProvider.when('/view1', {
+            templateUrl: 'view1/view1.html',
+            controller: 'fbLoginController'
+        });
+    }]);
 
-.controller('View1Ctrl', function($scope) {
-	$scope.days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-})
+veiw1Module.controller('birthdayParser', function($scope,FBBirthday,InitService){
+    var asdf = function(){
 
-.controller('PhoneListCtrl', function ($scope) {
-  $scope.phones = [
-    {'name': 'Nexus S',
-     'snippet': 'Fast just got faster with Nexus S.'},
-    {'name': 'Motorola XOOM™ with Wi-Fi',
-     'snippet': 'The Next, Next Generation tablet.'},
-    {'name': 'MOTOROLA XOOM™',
-     'snippet': 'The Next, Next Generation tablet.'}
-  ];
+        this.getBirthday = function($scope){
+
+            FB.api('/me', function(response) {
+                console.log(response);
+                $rootScope.introduction = response;
+                $rootScope.$apply();
+            });
+        };
+
+        this.AkanName = function (day,gender){
+
+            var boys =["Kwesi","Kojo","Kwabena","Kwaku","Yaw","Kofi","Kwame"];
+            var girls=["Akosua","Adwoa","Abena", "Akua","Yaa","Afua","Ama"];
+
+            var name;
+            if(gender=='M')
+            {
+                name = boys[day];
+            }
+            else{
+                name=girls[day];
+            }
+
+            return name;
+        }
+    }
+
+
+
+InitService.initMe($scope);
 });
+

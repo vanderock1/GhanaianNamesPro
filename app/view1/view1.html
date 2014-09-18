@@ -1,14 +1,14 @@
-<section ng-controller="View1Ctrl">
-<p>This is the partial for view 1.</p>
-<div
-  class="fb-like"
-  data-share="true"
-  data-width="450"
-  data-show-faces="true">
-</div>
 
+    <section ng-controller="fbLoginController">
 
-	<div>{{introduction}}</div>
-	<div>Based on your birthdate {{birth}}</div>
-	<div>{{days.0}}</div>
-</section>
+        <div>{{introduction}}</div>
+        <div>Based on your birth date: {{birth}}</div>
+        <div>{{days.0}}</div>
+
+        <div
+                class="fb-like"
+                data-share="true"
+                data-width="450"
+                data-show-faces="true">
+        </div>
+    </section>
