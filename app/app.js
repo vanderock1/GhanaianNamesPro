@@ -23,6 +23,7 @@ parentPage.service('LoginService', function() {
                     $scope.Loginstate = 'Hello, '+response.first_name;
                     $rootScope.introduction = 'Hello, '+response.first_name + ' ' + response.last_name ;
                     $rootScope.birth = response.birthday;
+                    $rootScope.gender = response.gender;
                     $scope.LogAction = 'Logout';
                     $scope.$apply();
                     isLoggedin = true;
@@ -48,6 +49,7 @@ parentPage.service('LoginService', function() {
                     $scope.Loginstate = 'Hello, '+response.first_name;
                     $rootScope.introduction = 'Hello, '+response.first_name + ' ' + response.last_name ;
                     $rootScope.birth = response.birthday;
+                    $rootScope.gender = response.gender;
                     isLoggedin = true;
                     $scope.LogAction = 'Logout';
                     $scope.$apply();
@@ -64,6 +66,7 @@ parentPage.service('LoginService', function() {
                             $scope.Loginstate = 'Hello, '+response.first_name;
                             $rootScope.introduction = 'Hello, '+response.first_name + ' ' + response.last_name ;
                             $rootScope.birth = response.birthday;
+                            $rootScope.gender = response.gender;
                             $scope.LogAction = 'Logout';
                             $scope.$apply();
                             isLoggedin = true;

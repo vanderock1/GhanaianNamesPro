@@ -9,8 +9,37 @@ angular.module('myApp.view1', ['ngRoute'])
         });
     }])
 
-    .controller('View1Ctrl', function($scope) {
+    .controller('View1Ctrl', function($scope,$rootScope) {
+
+
         $scope.days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+        $scope.getName = function() {
+            var d = new Date($('#birth').text());
+            var dayBorn = d.getDay();
+            console.log($rootScope.gender);
+            console.log(dayBorn);
+            $scope.akanName = 'Your Akan name is '+ AkanName(dayBorn,$rootScope.gender);
+
+        };
+
+        function AkanName(day,gender){
+            var boys =["Kwesi","Kojo","Kwabena","Kwaku","Yaw","Kofi","Kwame"];
+            var girls=["Akosua","Adwoa","Abena", "Akua","Yaa","Afua","Ama"];
+            var name;
+            if(gender=='male')
+            {
+                name = boys[day];
+            }
+            else{
+                name=girls[day];
+            }
+
+            return name;
+        }
+
+
+
     })
 
     .controller('PhoneListCtrl', function ($scope) {

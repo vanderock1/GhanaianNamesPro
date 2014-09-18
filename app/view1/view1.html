@@ -3,8 +3,11 @@
 
 
         <div>{{introduction}}</div>
-        <div>Based on your birth date: {{birth}}</div>
-        <div>{{days.0}}</div>
+        <div>Based on your birth date: <span id="birth">{{birth}}</span> </div>
+        <div>I can find your Akan name :)</div>
+        <button ng-click="getName()">Find my Akan name</button>
+
+        <div>{{akanName}}</div>
 
         <div
                 class="fb-like"
