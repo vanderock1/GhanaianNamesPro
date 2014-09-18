@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 //<html eg app="myApp">
 //<script src ="bower_components/angular/angular.js"></script>
 //<script src ="js/controllers.js"></script>
@@ -32,6 +32,13 @@ function AkanName(day,gender){
 
 return name;
 }
+function birthDay(yy-mm-dd)
+ {
+    var d = new Date();
+    var dayName=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    var day = dayName[d.getDay()];
+     return day;
+ }
 
 
 function findName(){
@@ -42,3 +49,8 @@ function findName(){
 	akname.innerHTML = myakanname;
 
 }
+     function findBirthDay()
+     {
+      var bd = document.getElementById('date_of_birth').innerHTML;
+      var result = birthDay(bd.value);
+     }
