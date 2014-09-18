@@ -11,65 +11,43 @@ var parentPage = angular.module('myApp', [
 ]);
 
 var isLoggedin = false;
-
-parentPage.service('InitService', function(LoginService){
-    this.initMe = function($scope){
-        window.fbAsyncInit = function() {
-            FB.init({
-                appId      : '820600624657154',
-                xfbml      : true,
-                version    : 'v2.1',
-                status	 : true
-            });
-
-            LoginService.status($scope);
-            $scope.$apply();
-        };
-
-    };
-
-
-
-});
-
 parentPage.service('LoginService', function() {
-    this.status = function($scope){
 
+
+    this.status = function($scope){
+        console.log('STATUS 1');
         FB.getLoginStatus(function(response) {
-            console.log('STATUS');
+            console.log(response);
             if (response.status == 'connected') {
-                FB.api('/me',  function(response) { $scope.introduction = 'Hello, '+response.first_name + " " + response.last_name;
-                    $scope.birth = response.birthday;
-                    isLoggedin = true;
+                FB.api('/me',  function(response) {
+                    $scope.Loginstate = 'Hello, '+response.first_name;
                     $scope.LogAction = 'Logout';
-                    $scope.LoginState = 'Hello, '+response.first_name;
                     $scope.$apply();
+                    isLoggedin = true;
                     console.log('status in');
-                    console.log(response);
                 });
             }else{
-
-                $scope.LoginState = 'Logged out';
-                $scope.$apply();
+                $scope.Loginstate = 'Logged out';
                 isLoggedin = false;
-               // return false;
+                $scope.$apply();
             }
         });
 
     };
 
+
+
     this.login = function($scope){
         FB.getLoginStatus(function(response) {
-            console.log('LOGIN');
             if (response.status == 'connected') {
                 FB.api('/me', function(response) {
+                    console.log('LOGIN');
                     console.log(response);
-                    $scope.LoginState = 'Hello, '+response.first_name;
-                    $scope.introduction = 'Hello, '+response.first_name + " " + response.last_name;
-                    $scope.birth = response.birthday;
+                    $scope.Loginstate = 'Hello, '+response.first_name;
                     isLoggedin = true;
                     $scope.LogAction = 'Logout';
                     $scope.$apply();
+                    console.log('Hello, '+response.first_name);
                 });
                 console.log('Logged in.');
             }
@@ -79,12 +57,10 @@ parentPage.service('LoginService', function() {
                     if (response.status == 'connected') {
                         FB.api('/me', function(response) {
                             console.log('API call after log in');
-                            $scope.LoginState = 'Hello, '+response.first_name;
-                            $scope.introduction = 'Hello, '+response.first_name + " " + response.last_name;
-                            $scope.birth = response.birthday;
+                            $scope.Loginstate = 'Hello, '+response.first_name;
                             $scope.LogAction = 'Logout';
-                            isLoggedin = true;
                             $scope.$apply();
+                            isLoggedin = true;
                         });
                         console.log('Logged in.');
                     }else{
@@ -98,6 +74,8 @@ parentPage.service('LoginService', function() {
         });
     };
 
+
+
     this.logout = function ($scope){
         FB.logout(function(response) {
             $scope.Loginstate = 'Logged out';
@@ -106,8 +84,6 @@ parentPage.service('LoginService', function() {
             $scope.$apply();
         });
     };
-
-
 });
 
 
@@ -116,19 +92,31 @@ parentPage.config(['$routeProvider', function($routeProvider) {
     //when view1 load facebook
 }]);
 
-parentPage.controller('fbLoginController',function($scope,LoginService,InitService){
+parentPage.controller('fbLoginController',function($scope,LoginService){
 
-    $scope.Loginstate = 'Logged out';
+    //$scope.Loginstate = 'Logged out';
     $scope.LogAction = 'Login';
 
     $scope.loginfb = function(){
         (isLoggedin)? LoginService.logout($scope):LoginService.login($scope);
     };
 
-    InitService.initMe($scope);
+    var init = function(){
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '820600624657154',
+                xfbml      : true,
+                version    : 'v2.1',
+                status	 : true
+            });
+
+            LoginService.status($scope);
+            $scope.$apply();
+        };
+    };
+    init();
+
 
 });
 
 $(document).foundation();
-
-
