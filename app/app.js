@@ -14,13 +14,15 @@ var isLoggedin = false;
 parentPage.service('LoginService', function() {
 
 
-    this.status = function($scope){
+    this.status = function($scope,$rootScope){
         console.log('STATUS 1');
         FB.getLoginStatus(function(response) {
             console.log(response);
             if (response.status == 'connected') {
                 FB.api('/me',  function(response) {
                     $scope.Loginstate = 'Hello, '+response.first_name;
+                    $rootScope.introduction = 'Hello, '+response.first_name + ' ' + response.last_name ;
+                    $rootScope.birth = response.birthday;
                     $scope.LogAction = 'Logout';
                     $scope.$apply();
                     isLoggedin = true;
@@ -37,13 +39,15 @@ parentPage.service('LoginService', function() {
 
 
 
-    this.login = function($scope){
+    this.login = function($scope,$rootScope){
         FB.getLoginStatus(function(response) {
             if (response.status == 'connected') {
                 FB.api('/me', function(response) {
                     console.log('LOGIN');
                     console.log(response);
                     $scope.Loginstate = 'Hello, '+response.first_name;
+                    $rootScope.introduction = 'Hello, '+response.first_name + ' ' + response.last_name ;
+                    $rootScope.birth = response.birthday;
                     isLoggedin = true;
                     $scope.LogAction = 'Logout';
                     $scope.$apply();
@@ -58,6 +62,8 @@ parentPage.service('LoginService', function() {
                         FB.api('/me', function(response) {
                             console.log('API call after log in');
                             $scope.Loginstate = 'Hello, '+response.first_name;
+                            $rootScope.introduction = 'Hello, '+response.first_name + ' ' + response.last_name ;
+                            $rootScope.birth = response.birthday;
                             $scope.LogAction = 'Logout';
                             $scope.$apply();
                             isLoggedin = true;
@@ -92,7 +98,7 @@ parentPage.config(['$routeProvider', function($routeProvider) {
     //when view1 load facebook
 }]);
 
-parentPage.controller('fbLoginController',function($scope,LoginService){
+parentPage.controller('fbLoginController',function($scope,$rootScope,LoginService){
 
     //$scope.Loginstate = 'Logged out';
     $scope.LogAction = 'Login';
@@ -110,7 +116,7 @@ parentPage.controller('fbLoginController',function($scope,LoginService){
                 status	 : true
             });
 
-            LoginService.status($scope);
+            LoginService.status($scope,$rootScope);
             $scope.$apply();
         };
     };
